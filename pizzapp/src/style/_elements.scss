@@ -1,0 +1,85 @@
+body {
+  background-color:$primary;
+  font-size: 100%;
+  font-family: Roboto, "Helvetica Neue";
+  margin: 0;
+  color: $primary;
+}
+
+*,
+::after,
+::before {
+  box-sizing: border-box;
+}
+$grid__bp-md: 768;
+$grid__bp-lg: 1200;
+$grid__cols: 12;
+
+$map-grid-props: (
+  "-sm": 0,
+  "-md": $grid__bp-md,
+  "-lg": $grid__bp-lg,
+);
+
+@mixin create-mq($breakpoint) {
+  @if ($breakpoint == 0) {
+    @content;
+  } @else {
+    @media screen and (min-width: $breakpoint *1px) {
+      @content;
+    }
+  }
+}
+
+@mixin create-col-classes($modifier, $grid-cols, $breakpoint) {
+  @include create-mq($breakpoint) {
+    @for $i from 1 through $grid-cols {
+      .col#{$modifier}-#{$i} {
+        flex-basis: (100 / ($grid-cols / $i)) * 1%;
+      }
+    }
+  }
+}
+
+.container {
+  max-width: $grid__bp-lg * 1px;
+  margin: 0 auto; 
+  @at-root {
+    [class*="col-"] {
+      min-height: 30px;
+      padding: 10px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+    }
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  padding:10px;
+}
+
+@each $modifier, $breakpoint in $map-grid-props {
+  @include create-col-classes($modifier, $grid__cols, $breakpoint);
+}
+
+.cardcontent{
+  height: 150px;
+}
+ 
+
+@media screen and (max-width: $grid__bp-md *1px) {
+  .logo{ 
+    margin: 0 auto;
+  }
+}
+.shoppingCartIcon{
+  position:absolute;
+  right: 20px;
+}
+ 
+
+ 
